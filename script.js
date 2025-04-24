@@ -1,32 +1,34 @@
-//your JS code here. If required.
-// Function to simulate a delay
-function delayFor(ms) {
+// Function to simulate a delay using Promise
+function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Async function to handle the message display after delay
-async function showMessageAfterDelay() {
-  const textInput = document.getElementById('text').value;
-  const delayInput = parseInt(document.getElementById('delay').value, 10);
-  const outputDiv = document.getElementById('output');
+// Async function to show the message after the delay
+async function handleSubmit() {
+  const text = document.getElementById("text").value;
+  const delay = parseInt(document.getElementById("delay").value, 10);
+  const output = document.getElementById("output");
 
   // Clear previous output
-  outputDiv.textContent = "";
+  output.textContent = "";
 
-  if (isNaN(delayInput) || delayInput < 0) {
-    outputDiv.textContent = "Please enter a valid delay in milliseconds.";
+  // Validation check
+  if (!text) {
+    output.textContent = "Please enter a message.";
     return;
   }
 
-  // Wait for the specified delay
-  await delayFor(delayInput);
+  if (isNaN(delay) || delay < 0) {
+    output.textContent = "Please enter a valid positive delay in milliseconds.";
+    return;
+  }
+
+  // Wait for the delay
+  await wait(delay);
 
   // Display the message
-  outputDiv.textContent = textInput;
+  output.textContent = text;
 }
 
-// Add event listener to the button
-document.getElementById('btn').addEventListener('click', (e) => {
-  e.preventDefault(); // Prevent default form submission
-  showMessageAfterDelay();
-});
+// Add click event to the submit button
+document.getElementById("btn").addEventListener("click", handleSubmit);
